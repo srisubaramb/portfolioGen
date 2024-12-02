@@ -1,0 +1,21 @@
+<section id="skill">
+<p class="section__text__p1">Explore My</p>
+<h1 class="title">Skill set</h1>
+<div class="experience-details-container">
+    <div class="about-containers">
+        {{#each skill}}
+        <div class="details-container">
+            <div class="article-container">
+                <article>
+                    <img src="./assets/checkmark.png" alt="Experience icon" class="icon" />
+                    <div>
+                        <h3>{{this.title}}</h3>
+                        <p>{{this.subtitle}}</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+</section>

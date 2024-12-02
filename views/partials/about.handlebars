@@ -1,0 +1,29 @@
+<section id="about">
+    <p class="section__text__p1">Get To Know More</p>
+    <h1 class="title">About Me</h1>
+    <div class="section-container">
+        {{!-- aboutpic --}}
+        <div class="section__pic-container">
+            <img src="{{aboutpic}}" alt="Profile picture" id="about-pic" />
+        </div>
+
+        <div class="about-details-container">
+            <h3>Education</h3>
+            <div class="about-containers">
+                {{!-- education details --}}
+                {{#each education}}
+                <div class="details-container">
+                    <img src="/assets/education.png" alt="Education icon" class="icon" />
+                    <h4>{{this.title}}</h4>
+                    <p>{{this.subtitle}}</p>
+                </div>
+                {{/each}}
+            </div>
+            {{!-- about/profile text --}}
+            <h3>Know me</h3>
+            <div class="text-container">
+                <p>{{about}}</p>
+            </div>
+        </div>
+    </div>         
+</section>

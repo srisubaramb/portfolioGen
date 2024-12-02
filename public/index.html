@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Gen</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Portfolio Generator</h1>
+    <form action="/submit" method="POST" enctype="multipart/form-data">
+        <div class="basic">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+            <label for="role">Role</label>
+            <input type="text" name="role" id="role">
+            <label for="about">About</label>
+            <textarea name="about" id="about"></textarea>
+        </div>
+        <div id="uploads">
+            <label for="profilepic">Profile Pic</label>
+            <input type="file" id="profilepic" name="profilepic" accept="image/* " >
+            <label for="aboutpic">About cover Pic</label>
+            <input type="file" id="aboutpic" name="aboutpic" accept="image/*">
+            <label for="cv">View CV</label>
+            <input type="file" id="cv" name="cv" accept="application/pdf">
+        </div>
+        <div class="handles">
+            <label for="linkedin">Linkedin</label>
+            <input type="text" id="linkedin" name="linkedinUrl">
+            <label for="github">Github</label>
+            <input type="text" id="github" name="githubUrl">
+        </div>
+        <h3>skills</h3>
+        <div id="skill-container">
+            <div class="skill-item">
+                <input type="text" name="skill[0][title]" placeholder="Your Skill (eg: web Development)">
+                <input type="text" name="skill[0][subtitle]" placeholder="subtitle (eg: HTML, CSS, JS)">
+            </div>
+        </div>
+        <button type="button" id="add-skill"><h3>+Skill</h3></button>
+        <div id="education-container">
+            <div class="education-item">
+                <input type="text" name="education[0][title]" placeholder="Your Education (title)">
+                <input type="text" name="education[0][subtitle]" placeholder="subtitle (eg: University/college/school of)">
+            </div>
+        </div>
+        <button type="button" id="add-education">+education</button>
+        <input type="submit" value="Generate">
+    </form>
+    <script src="js/index.js"></script>
+</body>
+</html>
