@@ -27,9 +27,9 @@
         </div>
         <div class="handles">
             <label for="linkedin">Linkedin</label>
-            <input type="text" id="linkedin" name="linkedinUrl">
+            <input type="url" id="linkedin" name="linkedinUrl">
             <label for="github">Github</label>
-            <input type="text" id="github" name="githubUrl">
+            <input type="url" id="github" name="githubUrl">
         </div>
         <h3>skills</h3>
         <div id="skill-container">
@@ -46,6 +46,15 @@
             </div>
         </div>
         <button type="button" id="add-education">+education</button>
+        <div id="project-container">
+            <div class="project-item">
+                <input type="text" name="project[0][title]" placeholder="Project name/title">
+                <input type="url" name="project[0][url]" placeholder="Enter the url(eg: Github,website etc)">
+                <label for="projectpic0">Project pic</label>
+                <input type="file" name="project[0][projectpic]" id="projectpic0" accept="image/*">
+            </div>
+        </div>
+        <button type="button" id="add-project">+project</button>
         <input type="submit" value="Generate">
     </form>
     <script src="js/index.js"></script>

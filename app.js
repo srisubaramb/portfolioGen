@@ -24,17 +24,34 @@ const storage = multer.diskStorage({
 )
 const upload = multer({storage})
 
+
 app.use(express.urlencoded({extended: true}))
 
-app.post('/submit',upload.fields([
-    {name: 'profilepic', maxCount: 1},
-    {name: 'aboutpic', maxCount: 1},
-    {name: 'cv', maxCount: 1}
-        ]),(req, res) => {
+app.post('/submit',upload.any(),(req, res) => {
     const {name, role, linkedinUrl, githubUrl,about} = req.body
-    const profilepic = req.files['profilepic'] ? `/uploads/${req.files['profilepic'][0].filename}` : null
-    const aboutpic = req.files['aboutpic'] ? `/uploads/${req.files['aboutpic'][0].filename}` : null
-    const cv = req.files['cv'] ? `/uploads/${req.files['cv'][0].filename}` : null
+    const profilepic = req.files.find(files => files.fieldname === 'profilepic') ? 
+    `/uploads/${req.files.find(file => file.fieldname === 'profilepic').filename}` : null
+    const cv = req.files.find(files => files.filename === 'cv') ? 
+    `/uploads/${req.files.find(file => file.filename === 'cv').filename}` : null
+    const aboutpic = req.files.find(files => files.findname === 'aboutpic') ?
+    `/uploads/${req.files.find(file => file.findname === 'aboutpic').filename}` : null
+
+    const projects = []
+    if(req.body.project) {
+        for(const key in req.body.project) {
+            const project = req.body.project[key]
+            const projectImageField = `project[${key}][projectpic]`
+
+            const projectepicfile = req.files.find(file => file.fieldname === projectImageField);
+            const projectpicfilepath =  projectepicfile ? `/uploads/${projectepicfile.filename}` : null
+
+            projects.push({
+                projecttitle: project.title,
+                projecturl: project.url,
+                projectpic: projectpicfilepath
+            })
+        }
+    }
     // () force the js interpretur to treat {} as object to be return
     // isArray to check the presense of array ele
     const skill = Array.isArray(req.body.skill) ?
@@ -51,7 +68,8 @@ app.post('/submit',upload.fields([
     })) : []
     console.log(education)
 
-    res.render('portfolio',{name, role, profilepic, cv, linkedinUrl, githubUrl, about, aboutpic,education, skill})
+    
+    res.render('portfolio',{name, role, profilepic, cv, linkedinUrl, githubUrl, about, aboutpic,education, skill, projects})
 })
 
 app.listen(3000,() => {console.log("Server atarts at port 3000")})
