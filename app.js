@@ -35,7 +35,7 @@ app.post('/submit',upload.any(),(req, res) => {
     `/uploads/${req.files.find(file => file.filename === 'cv').filename}` : null
     const aboutpic = req.files.find(files => files.findname === 'aboutpic') ?
     `/uploads/${req.files.find(file => file.findname === 'aboutpic').filename}` : null
-
+    console.log()
     const projects = []
     if(req.body.project) {
         for(const key in req.body.project) {
