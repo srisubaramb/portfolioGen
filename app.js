@@ -1,6 +1,13 @@
 import express from 'express'
 import { engine } from 'express-handlebars'
 import multer from 'multer'
+import fs from 'fs'
+import path  from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 const app = express()
 //index file and form reading
 app.use(express.static('public'))
@@ -29,13 +36,18 @@ app.use(express.urlencoded({extended: true}))
 
 app.post('/submit',upload.any(),(req, res) => {
     const {name, role, linkedinUrl, githubUrl,about} = req.body
+
+    console.log(req.files)
+    
     const profilepic = req.files.find(files => files.fieldname === 'profilepic') ? 
     `/uploads/${req.files.find(file => file.fieldname === 'profilepic').filename}` : null
-    const cv = req.files.find(files => files.filename === 'cv') ? 
-    `/uploads/${req.files.find(file => file.filename === 'cv').filename}` : null
-    const aboutpic = req.files.find(files => files.findname === 'aboutpic') ?
-    `/uploads/${req.files.find(file => file.findname === 'aboutpic').filename}` : null
-    console.log()
+
+    const cv = req.files.find(files => files.fieldname === 'cv') ? 
+    `/uploads/${req.files.find(file => file.fieldname === 'cv').filename}` : null
+
+    const aboutpic = req.files.find(files => files.fieldname === 'aboutpic') ?
+    `/uploads/${req.files.find(file => file.fieldname === 'aboutpic').filename}` : null
+
     const projects = []
     if(req.body.project) {
         for(const key in req.body.project) {
@@ -72,4 +84,25 @@ app.post('/submit',upload.any(),(req, res) => {
     res.render('portfolio',{name, role, profilepic, cv, linkedinUrl, githubUrl, about, aboutpic,education, skill, projects})
 })
 
+// To delete the files in upload folder when the use leave the tab
+app.post('/clear-uploads',(req,res) => {
+    const uploadsDir = path.join(__dirname, 'public', 'uploads');
+
+    fs.readdir(uploadsDir, (err, files) => {
+        if (err) {
+            return res.status(500).send("Error in deleting files");
+        }
+
+        const deletePromises = files.map(file => {
+            return new Promise((resolve, reject) => {
+                fs.unlink(path.join(uploadsDir, file), (err) => {
+                    if (err) {
+                      return reject(err);
+                    }
+                    resolve();
+                });
+            });
+        })
+    })
+})
 app.listen(3000,() => {console.log("Server atarts at port 3000")})
